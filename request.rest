@@ -1,0 +1,32 @@
+GET http://localhost:4000/api/users HTTP/1.1
+
+###
+
+DELETE http://localhost:4000/api/users/5e5f70b11c9d440000fac56e HTTP/1.1
+
+
+###
+
+POST  http://localhost:4000/api/users HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+{
+    first_name: "qwerty",
+    last_name: "xxxxx",
+    age: 66,
+    fights: "100",
+    wins: "10"
+}
+
+###
+
+
+PUT http://localhost:4000/api/users/5e60bac84ddba314c0c13767 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+{
+    first_name: "yippeeppppp",
+    age: 007
+}
+
+ 
