@@ -108,6 +108,6 @@ app.get("/*", (req, res) => {
 
 // and finally,  lets listen
 const port = 4000;
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening on port ${port}!`);
 });
