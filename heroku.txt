@@ -1,0 +1,30 @@
+F#or existing node express project:
+
+1
+Create repo on github. Follow instruction to create master and allow upstrem push
+
+2
+Create procfile and add:
+web: node server.js
+
+3
+Create .env file add:
+const port = process.env.PORT;
+
+4
+Update server.js to - these lines will be near the end of server.js:
+app.listen(process.env.PORT || port, () => {
+  console.log(`Example app listening on port ${port}!`);
+});
+
+
+OPEN THE TERMINAL
+
+heroku login - follow the steps
+heroku create nz-yoobee-test
+
+Easiest thing to do now is to log onto heroku and do the rest from there
+
+GIT:
+git remote add origin https://github.com/kdowd/yoobee-express.git
+git push -u origin master
