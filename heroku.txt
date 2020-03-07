@@ -22,8 +22,15 @@ OPEN THE TERMINAL
 
 heroku login - follow the steps
 heroku create nz-yoobee-test
+git push heroku master
 
+NOW wait and then click the supplied link
+
+OR
 Easiest thing to do now is to log onto heroku and do the rest from there
+
+
+FOR GIT we do this
 
 GIT:
 git remote add origin https://github.com/kdowd/yoobee-express.git
