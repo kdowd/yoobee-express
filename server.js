@@ -1,18 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const bodyParser = require("body-parser");
-// import db login details
 const myconn = require("./connection");
-
 // every single collection will need a model
 const User = require("./models/users-model");
 
-// init express
+// init express, bodyparser now built in to express...
 const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
 // end init express
 
@@ -26,7 +23,7 @@ mongoose.connect(myconn.atlas, {
 const db = mongoose.connection;
 
 db.on("connected", e => {
-  console.log("Mongoose connected");
+  console.log("+++ Mongoose connected ");
 });
 
 db.on("error", () => console.log("Database error"));
@@ -34,7 +31,7 @@ db.on("error", () => console.log("Database error"));
 
 // for now we have nothing on the top level
 app.get("/", function(req, res) {
-  return res.json({ result: false });
+  res.json({ result: false });
 });
 //end top level
 
@@ -52,34 +49,61 @@ router.post("/users", (req, res) => {
 
   userModel.save().then(
     user => {
-      return res.json({ result: true });
+      res.json({ result: true });
       //OR
-      // return res.json(userModel);
+      // res.json(userModel);
     },
     () => {
-      return res.json({ result: false });
+      res.json({ result: false });
     }
   );
 });
 
 // READ
 router.get("/users", (req, res) => {
-  User.find().then(usersFromDataBase => {
-    return res.json(usersFromDataBase);
+  // .sort({ age: "descending" })
+  User.find().then(
+    usersFromDataBase => {
+      res.json(usersFromDataBase);
+    },
+    () => {
+      res.json({ result: false });
+    }
+  );
+});
+
+// find and return a single user based upon _id
+router.get("/users/:id", (req, res) => {
+  User.findOne({ _id: req.params.id }, function(err, objFromDB) {
+    //exit now if any kind of error
+    if (err) return res.json({ result: false });
+    res.send(objFromDB);
   });
 });
 
 //UPDATE
 router.put("/users/:id", (req, res) => {
   User.findOne({ _id: req.params.id }, function(err, objFromDB) {
-    if (err) return res.json({ result: false });
+    if (err)
+      return res.json({
+        result: false
+      });
     var data = req.body;
-    console.log(" >>> ", data);
+    // lets see the react data
+    console.log(" ++++>>> ", data);
     Object.assign(objFromDB, data);
-    objFromDB.save();
-    return res.json({ result: true });
-    //OR
-    // return res.send(objFromDB);
+    objFromDB.save().then(
+      response => {
+        res.json({
+          result: true
+        });
+      },
+      error => {
+        res.json({
+          result: false
+        });
+      }
+    );
   });
 });
 
@@ -88,10 +112,10 @@ router.delete("/users/:id", (req, res) => {
   // as a promise
   User.deleteOne({ _id: req.params.id }).then(
     () => {
-      return res.json({ result: true });
+      res.json({ result: true });
     },
     () => {
-      return res.json({ result: false });
+      res.json({ result: false });
     }
   );
 });
@@ -103,11 +127,11 @@ router.get("/*", (req, res) => {
 
 // ditto for app route
 app.get("/*", (req, res) => {
-  return res.json({ result: "not a valid endpoint" });
+  res.json({ result: "not a valid endpoint" });
 });
 
 // and finally,  lets listen
 const port = 4000;
-app.listen(process.env.PORT || port, () => {
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
 });
