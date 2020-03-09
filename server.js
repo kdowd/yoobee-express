@@ -127,7 +127,7 @@ router.get("/*", (req, res) => {
 
 // ditto for app route
 app.get("/*", (req, res) => {
-  res.json({ result: "not a valid endpoint" });
+  res.json({ result: "invalid endpoint, please choose another" });
 });
 
 // and finally,  lets listen
