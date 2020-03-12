@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const myconn = require("./connection");
 // every single collection will need a model ,,,,
-//hmmmmm, ahhhh,  newer whats this;
+//hmmmmm, **********************************************;
 
 const app = express();
 app.use(cors());
