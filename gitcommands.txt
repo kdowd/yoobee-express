@@ -43,3 +43,5 @@ git status
 Diff
 git diff master...newbie
 
+
+git master and seo_branch now point to the same thing(HEAD)
