@@ -37,5 +37,9 @@ git pull -v -- new remote will show in the response, you can then check it out
 git checkout joebranch
 git add/commit/push  ---- no need for upstream linkage
 
+Look for the merge hint
+git status
 
+Diff
+git diff master...newbie
 
