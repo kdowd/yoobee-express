@@ -1,4 +1,4 @@
-F#or existing node express project:
+//For existing node express project:
 
 1
 Create repo on github. Follow instruction to create master and allow upstream push
