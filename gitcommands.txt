@@ -35,6 +35,7 @@ branch.master.remote=origin
 branch.master.merge=refs/heads/master
 
 
+<<<<<<< HEAD
 
 //stash
 git stash save
@@ -43,3 +44,8 @@ git stash pop
 
 // delete a branch - cannot be on it
 branch -D origin/joebranch
+=======
+new branch
+git pull
+git checkout joebranch
+>>>>>>> joebranch
