@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const myconn = require("./connection");
-// every single collection will need a model
+// every single collection will need a model ,,,,
+//eh;
 const User = require("./models/users-model");
 
 // init express, bodyparser now built in to express...
