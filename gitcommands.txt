@@ -1,2 +1,32 @@
 // add colour
 git config --global color.ui auto
+
+//
+git remote
+
+// whoami ?
+git config user.name
+git config user.email
+
+// update whoami
+// the following is supeceeded by credentials helper/keychain
+git config --global user.name "Alvin J. Alexander"
+git config --global user.email [your email address here]
+
+// too see it all
+git config --list
+credential.helper=osxkeychain
+user.name=kdowd
+user.email=kevin.dowd@gmail.com
+credential.helper=cache
+color.ui=auto
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=false
+remote.origin.url=https://github.com/kdowd/yoobee-express.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
