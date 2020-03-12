@@ -3,9 +3,6 @@ git config --global color.ui auto
 
 //
 git remote
-origin
-git remote -v
-origin  https://github.com/kdowd/yoobee-express.git (push)
 
 // whoami ?
 git config user.name
@@ -35,17 +32,10 @@ branch.master.remote=origin
 branch.master.merge=refs/heads/master
 
 
-<<<<<<< HEAD
-
-//stash
-git stash save
-git stash pop
-
-
-// delete a branch - cannot be on it
-branch -D origin/joebranch
-=======
-new branch
-git pull
+new remote branch to local
+git pull -v -- new remote will show in the response, you can then check it out
 git checkout joebranch
->>>>>>> joebranch
+git add/commit/push  ---- no need for upstream linkage
+
+
+
