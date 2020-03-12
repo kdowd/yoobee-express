@@ -43,5 +43,14 @@ git status
 Diff
 git diff master...newbie
 
-
+1.
 git master and seo_branch now point to the same thing(HEAD)
+
+
+2.
+Updates were rejected because the tip of your current branch is behind
+do a git pull and solve the conflicts
+
+3. Nuclear
+git reset --hard origin/branch-name
+Warning: this is a destructive action, it overwrites all the changes in your local branch with the changes from the remote
