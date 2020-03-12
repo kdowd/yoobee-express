@@ -30,3 +30,8 @@ remote.origin.url=https://github.com/kdowd/yoobee-express.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
+
+
+new branch
+git checkout -b newbranch
+git push -u origin newbranch
