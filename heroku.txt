@@ -1,4 +1,4 @@
-// sweet For existing node express project:
+// sweety  For existing node express project:
 // new branchy
 
 1
