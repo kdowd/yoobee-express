@@ -1,15 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const myconn = require("./connection");
-// every single collection will need a model ,,,,
-//hmmmmm, XXXXXXXXXXXXXXXXXXXXXXXX;
-//hmmmmm, #############################################;
 
+// every single collection will need a model
+const User = require("./models/users-model");
+
+// init express, bodyparser now built in to express...
 const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload());
 app.use(express.static("public"));
 // end init express
 
@@ -39,8 +42,33 @@ app.get("/", function(req, res) {
 const router = express.Router();
 app.use("/api", router);
 
+// my functions
+function updateAfterFileUpload(req, res, objFromDB, fileName) {
+  // form data from frontend is stored in the req.body
+  var data = req.body;
+  Object.assign(objFromDB, data);
+  // if fileName param is null use default.jpg
+  objFromDB.profile_image = fileName || "default.jpg";
+
+  objFromDB.save().then(
+    response => {
+      res.json({
+        result: true
+      });
+    },
+    error => {
+      res.json({
+        result: false
+      });
+    }
+  );
+}
+// end  my functions
+
 // define CRUD api routes for :
 // CREATE
+
+// for normal form , no images
 router.post("/users", (req, res) => {
   var userModel = new User();
 
@@ -50,13 +78,35 @@ router.post("/users", (req, res) => {
   userModel.save().then(
     user => {
       res.json({ result: true });
-      //OR
-      // res.json(userModel);
     },
     () => {
       res.json({ result: false });
     }
   );
+});
+
+// for form , with one image max
+router.post("/users/form-with-image", (req, res) => {
+  var userModel = new User();
+
+  if (req.files) {
+    var files = Object.values(req.files);
+    var uploadedFileObject = files[0];
+    var uploadedFileName = uploadedFileObject.name;
+    var nowTime = Date.now();
+    var newFileName = `${nowTime}_${uploadedFileName}`;
+
+    uploadedFileObject.mv(`public/${newFileName}`).then(
+      params => {
+        updateAfterFileUpload(req, res, userModel, newFileName);
+      },
+      params => {
+        updateAfterFileUpload(req, res, userModel);
+      }
+    );
+  } else {
+    updateAfterFileUpload(req, res, userModel);
+  }
 });
 
 // READ
@@ -82,6 +132,7 @@ router.get("/users/:id", (req, res) => {
 });
 
 //UPDATE
+// update for users with no form image
 router.put("/users/:id", (req, res) => {
   User.findOne({ _id: req.params.id }, function(err, objFromDB) {
     if (err)
@@ -89,8 +140,6 @@ router.put("/users/:id", (req, res) => {
         result: false
       });
     var data = req.body;
-    // lets see the react data
-    console.log(" ++++>>> ", data);
     Object.assign(objFromDB, data);
     objFromDB.save().then(
       response => {
@@ -105,6 +154,55 @@ router.put("/users/:id", (req, res) => {
       }
     );
   });
+});
+
+// update for users with form image
+router.put("/users/with-form-image/:id", (req, res) => {
+  User.findOne({ _id: req.params.id }, function(err, objFromDB) {
+    if (err)
+      return res.json({
+        result: false
+      });
+
+    if (req.files) {
+      var files = Object.values(req.files);
+      var uploadedFileObject = files[0];
+      var uploadedFileName = uploadedFileObject.name;
+      var nowTime = Date.now();
+      var newFileName = `${nowTime}_${uploadedFileName}`;
+
+      uploadedFileObject.mv(`public/${newFileName}`).then(
+        params => {
+          updateAfterFileUpload(req, res, objFromDB, newFileName);
+        },
+        params => {
+          updateAfterFileUpload(req, res, objFromDB);
+        }
+      );
+    } else {
+      updateAfterFileUpload(req, res, objFromDB);
+    }
+
+    /////////
+  });
+});
+
+// add single image to express - return filename, does not write to mongodb
+router.put("/users/upload", (req, res) => {
+  if (req.files) {
+    var files = Object.values(req.files);
+    var uploadedFileObject = files[0];
+    var uploadedFileName = uploadedFileObject.name;
+    var nowTime = Date.now();
+    var newFileName = `${nowTime}_${uploadedFileName}`;
+
+    uploadedFileObject.mv(`public/${newFileName}`, function() {
+      // update app
+      res.json({ filename: newFileName, result: true });
+    });
+  } else {
+    res.json({ result: false });
+  }
 });
 
 // DELETE
