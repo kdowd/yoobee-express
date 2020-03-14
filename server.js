@@ -225,7 +225,7 @@ router.get("/*", (req, res) => {
 
 // ditto for app route
 app.get("/*", (req, res) => {
-  res.json({ result: "invalid endpoint, please choose another" });
+  res.json({ result: "invalid endpoint, are you trying to hack me ?????" });
 });
 
 // and finally,  lets listen
